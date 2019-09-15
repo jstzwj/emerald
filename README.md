@@ -1,2 +1,2 @@
 # emerald
-A simple minecraft in rust
+A simple minecraft-compatible game.
