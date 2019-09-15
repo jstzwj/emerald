@@ -7,8 +7,12 @@ project ("emerald")
 
 set(CMAKE_CXX_STANDARD 11)
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 find_package(Vulkan REQUIRED)
 
 
 # Include sub-projects.
+add_subdirectory ("contrib")
 add_subdirectory ("src")

@@ -14,5 +14,6 @@ add_executable (emerald ${EMERALD_LIST})
 target_compile_definitions(emerald PRIVATE VK_USE_PLATFORM_WIN32_KHR)
 target_include_directories(emerald PRIVATE Vulkan::Vulkan)
 target_link_libraries(emerald Vulkan::Vulkan)
+target_link_libraries(emerald ${CONAN_LIBS})
 
 # TODO: Add tests and install targets if needed.
