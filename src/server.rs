@@ -4,16 +4,6 @@ use tokio::io;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::prelude::*;
 
-fn incoming_dispatch(stream: &TcpStream) {
-    let mut buf: [u8; 1] = [0; 1];
-    tokio::io::read_exact(stream, buf)
-        .and_then(|(_stream, buf)|{
-            if buf[0] == 0x01 {
-                println!("ping");
-            }
-        });
-}
-
 pub fn app_loop() -> std::io::Result<()> {
     let addr_str = "127.0.0.1:25565";
     let addr = addr_str.parse().unwrap();
@@ -26,8 +16,14 @@ pub fn app_loop() -> std::io::Result<()> {
         .incoming()
         .for_each(|stream| {
             // TODO: Process stream
-            incoming_dispatch(&stream);
-            Ok(())
+            let mut buf: [u8; 1] = [0; 1];
+            tokio::io::read_exact(stream, buf)
+                .and_then(|(stream, buf)|{
+                    if buf[0] == 0x01 {
+                        println!("ping");
+                    }
+                    Ok(())
+                })
         })
         .map_err(|err| {
             // Handle error by printing to STDOUT.
