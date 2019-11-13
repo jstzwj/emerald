@@ -7,9 +7,11 @@ use std::net::SocketAddr;
 
 use tokio::prelude::*;
 use tokio::net::{TcpListener, TcpStream};
+use tokio::stream::Stream;
 
 
 use super::protocol::status::ping::Ping;
+use crate::protocol::Protocol;
 
 
 enum state
@@ -65,8 +67,7 @@ async fn process(
     let n = stream.read(&mut buf).await.expect("failed to read packet from socket");
     if n == 1 {
         if buf[0] == 0x01 {
-            let packet = Ping::deserialize(&mut stream);
-
+            let packet = Ping::deserialize(&mut stream).await;
         } else {
             println!("unknown id")
         }

@@ -1,7 +1,9 @@
 extern crate tokio;
 extern crate bytes;
+extern crate async_trait;
 
 mod protocol;
+mod serialization;
 mod server;
 
 use futures::executor::block_on;
