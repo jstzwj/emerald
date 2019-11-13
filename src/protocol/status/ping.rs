@@ -2,6 +2,8 @@ use tokio::io;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::prelude::*;
 
+use super::super::*;
+
 pub struct Ping {
     pub payload:i64
 }
@@ -11,15 +13,13 @@ impl Ping {
         Ping{payload: 0}
     }
 
-    pub fn deserialize(stream: TcpStream) -> Ping {
-
-    }
-
     pub fn id(&self) -> u8 {
         return 0x01;
     }
 
-    
+    pub async fn deserialize(stream: &mut TcpStream) -> Ping {
+        Ping{ payload: read_long(stream).await }
+    }
 }
 
 pub struct Pong {
@@ -33,5 +33,9 @@ impl Pong {
     
     pub fn id(&self) -> u8 {
         return 0x01;
+    }
+
+    pub async fn deserialize(stream: &mut TcpStream) -> Ping {
+        Ping{ payload: read_long(stream).await }
     }
 }

@@ -9,6 +9,14 @@ use tokio::prelude::*;
 use tokio::net::{TcpListener, TcpStream};
 
 
+use super::protocol::status::ping::Ping;
+
+
+enum state
+{
+
+}
+
 struct Shared {
 }
 
@@ -47,12 +55,22 @@ pub async fn app_loop() -> Result<(), Box<dyn Error>> {
 }
 
 
-/// Process an individual chat client
+/// Process an individual session
 async fn process(
     state: Arc<Mutex<Shared>>,
-    stream: TcpStream,
+    mut stream: TcpStream,
     addr: SocketAddr,
 ) -> Result<(), Box<dyn Error>> {
+    let mut buf :[u8;1] = [0; 1];
+    let n = stream.read(&mut buf).await.expect("failed to read packet from socket");
+    if n == 1 {
+        if buf[0] == 0x01 {
+            let packet = Ping::deserialize(&mut stream);
+
+        } else {
+            println!("unknown id")
+        }
+    }
 
     Ok(())
 }

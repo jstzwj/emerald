@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 tokio = { git = "https://github.com/tokio-rs/tokio.git" }
 futures = "0.3.0"
+bytes = "0.4"
