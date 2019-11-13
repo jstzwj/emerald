@@ -7,5 +7,5 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = "0.1"
-futures = "0.3"
+tokio = { git = "https://github.com/tokio-rs/tokio.git" }
+futures = "0.3.0"
