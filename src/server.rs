@@ -63,15 +63,19 @@ async fn process(
     mut stream: TcpStream,
     addr: SocketAddr,
 ) -> Result<(), Box<dyn Error>> {
-    let mut buf :[u8;1] = [0; 1];
-    let n = stream.read(&mut buf).await.expect("failed to read packet from socket");
-    if n == 1 {
-        if buf[0] == 0x01 {
-            let packet = Ping::deserialize(&mut stream).await;
-        } else {
-            println!("unknown id")
-        }
-    }
 
+    loop{
+        let mut buf :[u8;1] = [0; 1];
+        let n = stream.read(&mut buf).await.expect("failed to read packet from socket");
+        if n == 1 {
+            if buf[0] == 0x01 {
+                let packet = Ping::deserialize(&mut stream).await;
+            } else {
+                println!("unknown id")
+            }
+        }
+
+    }
+    
     Ok(())
 }
